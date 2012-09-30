@@ -1,0 +1,22 @@
+{
+    "published": "2011-02-10T15:04:55Z",
+    "actor": {
+      "objectType" : "person",
+      "id": "Paweł Paprota"
+    },
+    "verb": "post",
+    "object" : {
+      "objectType" : "diary entry",
+      "url": "http://www.openstreetmap.org/user/testuser/diary/1234",
+      "id": "1234"
+    },
+    "target" : {
+      "objectType": "diary",
+      "url": "http://www.openstreetmap.org/user/testuser/diary"
+    },
+    "title" : "A very interesting article",
+    "to" : [
+      {"objectType": "user group", "id": "all"}
+    ]
+}
+

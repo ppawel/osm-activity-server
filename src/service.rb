@@ -1,4 +1,6 @@
 require 'couchdb-client'
+require 'json'
+
 require './model'
 
 module ActivityServer
@@ -9,17 +11,25 @@ class ActivityService
 
   def initialize
     @client = CouchDB.connect(:host => 'localhost', :port => 5984)
-    @db = client['activity_server']
-    #@client.put('activity_server')
+    #@client.put('activities')
+    @db = client['activities']
+    doc = @db.find('_design/activities')
+    if doc
+      @db.delete('_design/activities', doc['_rev'])
+      @db.put(JSON[File.open('activities.json', 'rb').read])
+    else
+      @db.put(JSON[File.open('activities.json', 'rb').read])
+    end
   end
 
   def publish_activity(json)
     activity = Activity.new(json)
+    doc = @db.put(activity.to_hash)
     #puts activity.inspect
     #puts activity.to_h.inspect
-    puts JSON.generate(activity.to_hash).inspect
+    #puts JSON.generate(activity.to_hash).inspect
     #doc = @db.put json
-    #puts doc.inspect
+    puts doc.inspect
   end
 end
 

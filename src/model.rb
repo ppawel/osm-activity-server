@@ -7,36 +7,57 @@ module ActivityServer
   end
 
   class Object
-    attr_accessor :props
+    attr_accessor :author
+    attr_accessor :content
+    attr_accessor :id
+    attr_accessor :objectType
 
     def initialize(json)
-      @props = {}
-      @props[:author] = Object.new(json['author']) if json.has_key?('author')
-      @props[:content] = json['content']
-      @props[:id] = json['id']
+      @author = Object.new(json['author']) if json.has_key?('author')
+      @content = json['content'] if json.has_key?('content')
+      @id = json['id'] if json.has_key?('id')
+      @objectType = json['objectType'] if json.has_key?('objectType')
     end
 
     def to_hash
-      ActivityServer::recursive_to_h(@props)
+      result = {}
+      instance_variables.each do |var_name|
+        result[var_name.to_s.gsub('@', '')] = instance_variable_get(var_name)
+      end
+      result
     end
   end
 
   class Activity
-    attr_accessor :props
+    attr_accessor :actor
+    attr_accessor :content
+    attr_accessor :id
+    attr_accessor :object
+    attr_accessor :target
+    attr_accessor :title
+    attr_accessor :to
+    attr_accessor :verb
 
     def initialize(json)
-      @props = {}
-      @props[:actor] = Object.new(json['actor'])
-      @props[:content] = json['content']
-      @props[:id] = json['id']
-      @props[:object] = Object.new(json['object']) if json.has_key?('object')
-      @props[:target] = Object.new(json['target']) if json.has_key?('target')
-      @props[:title] = json['title']
-      @props[:verb] = json['verb']
+      @actor = Object.new(json['actor']) if json.has_key?('actor')
+      @content = json['content'] if json.has_key?('content')
+      @id = json['id'] if json.has_key?('id')
+      @object = Object.new(json['object']) if json.has_key?('object')
+      @target = Object.new(json['target']) if json.has_key?('target')
+      @title = json['title'] if json.has_key?('title')
+      @to = json['to'].collect {|o| Object.new(o)} if json.has_key?('to')
+      @verb = json['verb']
     end
 
     def to_hash
-      ActivityServer::recursive_to_h(@props)
+      result = {}
+      instance_variables.each do |var_name|
+        var = instance_variable_get(var_name)
+        var = var.collect {|element| element.to_hash} if var.class.name == 'Array'
+        var = var.to_hash if var.respond_to?('to_hash')
+        result[var_name.to_s.gsub('@', '')] = var
+      end
+      result
     end
   end
 end
