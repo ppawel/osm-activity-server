@@ -7,7 +7,7 @@ Making OpenStreetMap a little bit more social ;-)
 
 OpenStreetMap Activity Server is a simple server that is a central component of the activity stream implementation for the OpenStreetMap project.
 
-## Umm, right... but what is his "activity stream" you speak of?
+## Umm, right... but what is this "activity stream" you speak of?
 
 According to Wikipedia:
 
