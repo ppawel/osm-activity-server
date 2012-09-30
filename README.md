@@ -19,6 +19,14 @@ In addition, a lot of terminology and technical stuff (data model in particular)
 
 http://activitystrea.ms/
 
+For an OpenStreetMap user this would mean having an activity stream on their user page - somewhat similar to popular social networks only without all the noise like "I just ate a sandwich" :-)
+
+So for example, you would see on your user page:
+
+* John Doe added a bridge and modified two highways in London.
+* Jane Doe says "We are having a mapping party on Friday! Let's meet up at 7PM near Youknowhere"
+* George Costanza posted a diary entry "How to avoid shrinkage"
+
 ## OK, but does OSM really need this?
 
 As it says in the project description - this is just an effort to make OpenStreetMap a little bit more social.
@@ -33,6 +41,8 @@ Some examples how activity stream could be used:
 
 Note that this project (OSM Activity Server) is not supposed to provide the above functionality. This project is meant to implement a stable and scalable platform. Various activities (such as those mentioned above) can then be published to the Activity Server (see also "What does it do?" section below).
 
+At the end of the day it's all about making mapping more fun and providing tools for interacting with other mappers.
+
 ## Why a separate server?
 
 The idea is to have a server for activities in order to implement the functionality without putting additional load on the main application and database servers in the OSM infrastructure.
@@ -43,6 +53,8 @@ It has several responsibilities:
 
 * Accept, process and store new activities.
 * Serve activity streams (a collection of activities).
+
+# Technical stuff
 
 ## API
 
