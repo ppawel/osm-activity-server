@@ -56,6 +56,21 @@ It has several responsibilities:
 
 # Technical stuff
 
+## Overview
+
+The server uses following technologies:
+
+* Apache CouchDB (http://couchdb.apache.org/) for storage of activities.
+* Sinatra (http://www.sinatrarb.com/) (backed by Thin) as the web server.
+
+Data model is derived directly from the JSON Activity Streams 1.0 and Audience Targeting for JSON Activity Streams specifications:
+
+http://activitystrea.ms/specs/json/1.0/
+http://activitystrea.ms/specs/json/targeting/1.0/
+
+Activities are stored as JSON documents (which is the native storage format of CouchDB).
+User activity streams are retrieved using CouchDB views.
+
 ## API
 
 ### Creating new activity
