@@ -33,6 +33,7 @@ module ActivityServer
     attr_accessor :content
     attr_accessor :id
     attr_accessor :object
+    attr_accessor :published
     attr_accessor :target
     attr_accessor :title
     attr_accessor :to

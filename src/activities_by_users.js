@@ -5,13 +5,11 @@ function(doc) {
     user_id = doc.to[i]['id'];
 
     if (user_id == 'all') {
-      key = ['all'];
+      emit(['all', doc.published], doc._rev);
       break;
     }
 
-    key += user_id;
+    emit([user_id, doc.published], doc._rev);
   }
-
-  emit(key, doc._rev);
 }
 
