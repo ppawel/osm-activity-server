@@ -1,0 +1,19 @@
+{
+    "published": "2011-02-10T15:04:55Z",
+    "actor": {
+      "objectType" : "person",
+      "id": "Paweł Paprota"
+    },
+    "verb": "map",
+    "object" : {
+      "objectType" : "changeset",
+      "url": "http://www.openstreetmap.org/browse/changeset/1234",
+      "id": "1234"
+    },
+    "title" : "Great changeset",
+    "to" : [
+      {"objectType": "person", "id": "George Costanza"},
+      {"objectType": "person", "id": "Kramer"}
+    ]
+}
+
