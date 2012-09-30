@@ -25,8 +25,7 @@ module ActivityServer
 
     def initialize
       @db = CouchRest.database!("http://127.0.0.1:5984/activities")
-      doc = @db.get('_design/activities')
-      doc = {} if !doc
+      doc = @db.get('_design/activities') rescue {}
       doc.merge!($design_doc)
       @db.save_doc(doc)
     end
@@ -34,12 +33,13 @@ module ActivityServer
     def publish_activity(json)
       activity = Activity.new(json)
       activity.published = Time.now.strftime '%Y-%m-%dT%H:%M:%S%z'
-      puts activity.inspect
       doc = @db.save_doc(activity.to_hash)
-      #puts activity.inspect
-      #puts activity.to_h.inspect
-      #puts JSON.generate(activity.to_hash).inspect
-      #doc = @db.put json
+    end
+
+    def activity_stream_for_user(user_id)
+      rows = @db.view('activities/activities_by_users', {:startkey => [user_id.to_s, ''],
+        :endkey => [user_id.to_s, 'Z'], :include_docs => true})['rows']
+      rows.collect {|row| Activity.new(row['doc'])}
     end
   end
 

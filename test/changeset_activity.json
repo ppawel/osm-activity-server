@@ -12,8 +12,8 @@
     },
     "title" : "Great changeset",
     "to" : [
-      {"objectType": "person", "id": "George Costanza"},
-      {"objectType": "person", "id": "Kramer"}
+      {"objectType": "person", "id": "1234"},
+      {"objectType": "person", "id": "4321"}
     ]
 }
 
