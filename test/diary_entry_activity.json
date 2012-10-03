@@ -2,19 +2,21 @@
     "published": "2011-02-10T15:04:55Z",
     "actor": {
       "objectType" : "person",
-      "id": "Paweł Paprota"
+      "id": "1234",
+      "display_name": "Paweł Paprota"
     },
     "verb": "post",
     "object" : {
-      "objectType" : "diary entry",
+      "objectType" : "article",
       "url": "http://www.openstreetmap.org/user/testuser/diary/1234",
       "id": "1234"
     },
     "target" : {
-      "objectType": "diary",
+      "objectType": "service",
       "url": "http://www.openstreetmap.org/user/testuser/diary"
     },
     "title" : "A very interesting article",
+    "content" : "A very interesting article indeed",
     "to" : [
       {"objectType": "user group", "id": "all"}
     ]

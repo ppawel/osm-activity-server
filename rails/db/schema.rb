@@ -22,10 +22,10 @@ ActiveRecord::Schema.define(:version => 20121002202058) do
     t.string "actor_name", :null => false
     t.string "object_type", :null => false
     t.string "object_id", :null => false
-    t.string "object_name", :null => false
+    t.string "object_name"
     t.string "target_type", :null => false
-    t.string "target_id", :null => false
-    t.string "target_name", :null => false
+    t.string "target_id"
+    t.string "target_name"
     t.string "verb", :null => false
     t.string "title", :null => false
     t.string "content", :null => false
