@@ -58,24 +58,21 @@ It has several responsibilities:
 
 ## Overview
 
-The server uses following technologies:
-
-* Apache CouchDB (http://couchdb.apache.org/) for storage of activities.
-* Sinatra (http://www.sinatrarb.com/) (backed by Thin) as the web server.
+The server is a simple Ruby on Rails web application.
 
 Data model is derived directly from the JSON Activity Streams 1.0 and Audience Targeting for JSON Activity Streams specifications:
 
 http://activitystrea.ms/specs/json/1.0/
 http://activitystrea.ms/specs/json/targeting/1.0/
 
-Activities are stored as JSON documents (which is the native storage format of CouchDB).
-User activity streams are retrieved using CouchDB views.
+Activities are stored in a Postgres/PostGIS database in a simplified schema (not all attributes from above specs are
+stored - they will be added as needed in the future).
 
 ## API
 
 ### Creating new activity
 
-URL: http://<hostname>:<port>/activity/new
+URL: /activities
 Request: POST with request parameter named "json"
 
 Parameter "json" is expected to contain a JSON document representing an activity. Format is described in the specification:
