@@ -1,4 +1,3 @@
 class Activity < ActiveRecord::Base
-  attr_accessor :content
-  attr_accessor :title
+  # attr_accessible :title, :body
 end

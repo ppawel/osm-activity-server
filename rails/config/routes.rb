@@ -1,4 +1,5 @@
 ActivityServer::Application.routes.draw do
+  resources :activities
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
