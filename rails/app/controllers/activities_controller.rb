@@ -21,7 +21,7 @@ class ActivitiesController < ApplicationController
       end
     end
 
-    render :text => 'OK'
+    render :json => activity_model.to_json
   end
 
   def index
@@ -29,7 +29,7 @@ class ActivitiesController < ApplicationController
     activities = ActivityRecipient.find(:all, :conditions => {:osm_user_id => user_id}, :joins => :activity, :order =>
       'published_at DESC').collect {|ar| ar.activity}
     stream = activities_to_json_stream(activities)
-    render :text => stream.to_json
+    render :json => stream.to_json
   end
 
   protected
