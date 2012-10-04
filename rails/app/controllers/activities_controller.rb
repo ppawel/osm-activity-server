@@ -7,10 +7,19 @@ class ActivitiesController < ApplicationController
   def create
     json = JSON.parse(params[:json], :symbolize_names => true)
     activity_model = json_to_activity(json)
-    puts get_audience_for_activity(activity_model).inspect
-    a = Activity.new
-    a.from_activity_model(activity_model)
-    a.save!
+
+    ActiveRecord::Base.transaction do
+      a = Activity.new
+      a.from_activity_model(activity_model)
+      a.save!
+
+      get_users_for_activity(activity_model).each do |user_id|
+        recipient = ActivityRecipient.new
+        recipient.activity = a
+        recipient.osm_user_id = user_id
+        recipient.save!
+      end
+    end
 
     render :text => 'OK'
   end

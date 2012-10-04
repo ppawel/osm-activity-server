@@ -32,4 +32,8 @@ ActiveRecord::Schema.define(:version => 20121002202058) do
     t.point "latlon", :geographic => true
   end
 
+  create_table :activity_recipients do |t|
+    t.integer "activity_id", :null => false
+    t.integer "osm_user_id", :null => false
+  end
 end
