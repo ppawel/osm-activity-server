@@ -24,6 +24,14 @@ class ActivitiesController < ApplicationController
     render :text => 'OK'
   end
 
+  def index
+    user_id = params[:user_id].to_i
+    activities = ActivityRecipient.find(:all, :conditions => {:osm_user_id => user_id}, :joins => :activity, :order =>
+      'published_at DESC').collect {|ar| ar.activity}
+    stream = activities_to_json_stream(activities)
+    render :text => stream.to_json
+  end
+
   protected
 
   def json_to_activity(json)
@@ -35,6 +43,23 @@ class ActivitiesController < ApplicationController
       :verb => create_verb(json[:verb]),
       :title => json[:title],
       :content => json[:content])
+  end
+
+  def activities_to_json_stream(activities)
+    items = activities.collect do |activity|
+      ActivityStreams::Activity.new(
+      :published => activity.published_at,
+      :actor => ActivityStreams::Object::Person.new({:objectType => activity.actor_type}),
+      :object => create_object({:objectType => activity.object_type}),
+      :target => create_object({:objectType => activity.target_type}),
+      :verb => create_verb(activity.verb),
+      :title => activity.title,
+      :content => activity.content)
+    end
+
+    ActivityStreams::Stream.new(
+      :items => items,
+      :total_count => activities.size)
   end
 
   def create_object(attributes)
