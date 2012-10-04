@@ -2,10 +2,12 @@ require 'activitystreams'
 require 'json'
 
 class ActivitiesController < ApplicationController
+  include AudienceService
+
   def create
     json = JSON.parse(params[:json], :symbolize_names => true)
     activity_model = json_to_activity(json)
-    puts activity_model.inspect
+    puts get_audience_for_activity(activity_model).inspect
     a = Activity.new
     a.from_activity_model(activity_model)
     a.save!

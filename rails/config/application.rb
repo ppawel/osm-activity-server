@@ -1,3 +1,6 @@
+$:.unshift File.absolute_path(File.dirname(__FILE__) + '/../../lib/')
+require 'osm_activity_server'
+
 require File.expand_path('../boot', __FILE__)
 
 # Pick the frameworks you want:
