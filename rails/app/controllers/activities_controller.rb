@@ -1,19 +1,26 @@
 require 'activitystreams'
 require 'json'
 
+##
+# Responsible for handling all actions related to activities. Activity is configured as a standard Rails resource in
+# routes.rb which means that {standard RESTful URLs are mapped to this controller's actions}[http://guides.rubyonrails.org/routing.html#crud-verbs-and-actions].
+#
 class ActivitiesController < ApplicationController
   include AudienceService
 
+  ##
+  # Handles creating an activity.
+  #
   def create
     json = JSON.parse(params[:json], :symbolize_names => true)
-    activity_model = json_to_activity(json)
+    activity_item = json_to_activity_item(json)
 
     ActiveRecord::Base.transaction do
       a = Activity.new
-      a.from_activity_model(activity_model)
+      a.from_activity_item(activity_item)
       a.save!
 
-      get_users_for_activity(activity_model).each do |user_id|
+      get_users_for_activity(activity_item).each do |user_id|
         recipient = ActivityRecipient.new
         recipient.activity = a
         recipient.osm_user_id = user_id
@@ -21,7 +28,7 @@ class ActivitiesController < ApplicationController
       end
     end
 
-    render :json => activity_model.to_json
+    render :json => activity_item.to_json
   end
 
   def index
@@ -34,7 +41,7 @@ class ActivitiesController < ApplicationController
 
   protected
 
-  def json_to_activity(json)
+  def json_to_activity_item(json)
     ActivityStreams::Activity.new(
       :published => Time.now.utc,
       :actor => ActivityStreams::Object::Person.new(json[:actor]),
@@ -57,9 +64,7 @@ class ActivitiesController < ApplicationController
       :content => activity.content)
     end
 
-    ActivityStreams::Stream.new(
-      :items => items,
-      :total_count => activities.size)
+    ActivityStreams::Stream.new(:items => items, :total_count => items.size)
   end
 
   def create_object(attributes)
