@@ -59,13 +59,22 @@ class ActivitiesController < ApplicationController
         :published => activity.published_at,
         :actor => create_object({
           :objectType => activity.actor_type,
-          :id => activity.actor_id}),
+          :id => activity.actor_id,
+          :display_name => activity.actor_display_name,
+          :url => activity.actor_url
+        }),
         :object => create_object({
           :objectType => activity.object_type,
-          :id => activity.object_id}),
+          :id => activity.object_id,
+          :display_name => activity.object_display_name,
+          :url => activity.object_url
+        }),
         :target => create_object({
           :objectType => activity.target_type,
-          :id => activity.target_id}),
+          :id => activity.target_id,
+          :display_name => activity.target_display_name,
+          :url => activity.target_url
+        }),
         :verb => create_verb(activity.verb),
         :title => activity.title,
         :content => activity.content)

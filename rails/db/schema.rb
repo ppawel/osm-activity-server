@@ -19,20 +19,23 @@ ActiveRecord::Schema.define(:version => 20121002202058) do
     t.datetime "published_at", :null => false
     t.string "actor_type", :null => false
     t.string "actor_id", :null => false
-    t.string "actor_name", :null => false
+    t.string "actor_display_name"
+    t.string "actor_url"
     t.string "object_type", :null => false
     t.string "object_id", :null => false
-    t.string "object_name"
+    t.string "object_display_name"
+    t.string "object_url"
     t.string "target_type", :null => false
     t.string "target_id"
-    t.string "target_name"
+    t.string "target_display_name"
+    t.string "target_url"
     t.string "verb", :null => false
     t.string "title", :null => false
     t.string "content", :null => false
     t.point "latlon", :geographic => true
   end
 
-  create_table :activity_recipients do |t|
+  create_table :activity_recipients, :force => true do |t|
     t.integer "activity_id", :null => false
     t.integer "osm_user_id", :null => false
   end
