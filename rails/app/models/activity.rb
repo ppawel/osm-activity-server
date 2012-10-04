@@ -10,7 +10,7 @@ class Activity < ActiveRecord::Base
     self.target_type = activity_model.target.object_type.to_s
     self.target_id = activity_model.target.id.to_s
     self.target_name = activity_model.target.display_name
-    self.verb = activity_model.verb
+    self.verb = activity_model.verb.to_s
     self.title = activity_model.title
     self.content = activity_model.content
   end
