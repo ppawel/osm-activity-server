@@ -21,7 +21,7 @@ class ActivitiesController < ApplicationController
       :actor => ActivityStreams::Object::Person.new(json[:actor]),
       :object => create_object(json[:object]),
       :target => create_object(json[:target]),
-      :verb => ActivityStreams::Verb.new,#(json[:verb])
+      :verb => create_verb(json[:verb]),
       :title => json[:title],
       :content => json[:content])
   end
@@ -29,5 +29,10 @@ class ActivitiesController < ApplicationController
   def create_object(attributes)
     cls = Object.const_get('ActivityStreams').const_get('Object').const_get(attributes[:objectType].camelize)
     cls.new(attributes)
+  end
+
+  def create_verb(verb)
+    cls = Object.const_get('ActivityStreams').const_get('Verb').const_get(verb.camelize)
+    cls.new
   end
 end
