@@ -1,5 +1,6 @@
 require 'activitystreams'
 require 'json'
+require 'osm_activity_server'
 
 ##
 # Responsible for handling all actions related to activities. Activity is configured as a standard Rails resource in
@@ -55,13 +56,19 @@ class ActivitiesController < ApplicationController
   def activities_to_json_stream(activities)
     items = activities.collect do |activity|
       ActivityStreams::Activity.new(
-      :published => activity.published_at,
-      :actor => ActivityStreams::Object::Person.new({:objectType => activity.actor_type}),
-      :object => create_object({:objectType => activity.object_type}),
-      :target => create_object({:objectType => activity.target_type}),
-      :verb => create_verb(activity.verb),
-      :title => activity.title,
-      :content => activity.content)
+        :published => activity.published_at,
+        :actor => create_object({
+          :objectType => activity.actor_type,
+          :id => activity.actor_id}),
+        :object => create_object({
+          :objectType => activity.object_type,
+          :id => activity.object_id}),
+        :target => create_object({
+          :objectType => activity.target_type,
+          :id => activity.target_id}),
+        :verb => create_verb(activity.verb),
+        :title => activity.title,
+        :content => activity.content)
     end
 
     ActivityStreams::Stream.new(:items => items, :total_count => items.size)
