@@ -27,7 +27,7 @@ According to Wikipedia: *"An activity stream is a list of recent activities perf
 
 In its simplest form, an activity is a sentence in the following form:
 
-<actor> <verb> <object> [<target>]
+`<actor> <verb> <object> [<target>]`
 
 So for example:
 
@@ -47,7 +47,9 @@ Some examples how activity stream could be used:
 * Tracking mapping activity in specific areas - similar to the existing "nearby changesets" functionality but more user-friendly (bot edits filtered out, human-readable descriptions of changesets etc).
 * Tracking activity of friends - mapping, diary entries, perhaps status updates.
 
-Note that this project (OSM Activity Server) is not supposed to provide the above functionality. This project is meant to implement a stable and scalable platform. Various activities (such as those mentioned above) can then be published to the Activity Server (see also "What does it do?" section below).
+Note that this project (OSM Activity Server) is not supposed to provide the above functionality. This project is meant
+to implement a stable and scalable platform. Various activities (such as those mentioned above) can then be published to
+the Activity Server.
 
 At the end of the day it's all about making mapping more fun and providing tools for interacting with other mappers.
 
@@ -72,4 +74,4 @@ stored - they will be added as needed in the future).
 
 ## API
 
-See API file.
+See the API file.
