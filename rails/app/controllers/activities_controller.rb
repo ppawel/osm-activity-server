@@ -8,6 +8,7 @@ require 'osm_activity_server'
 #
 class ActivitiesController < ApplicationController
   include AudienceService
+  include ActivityServerLogger
 
   ##
   # Handles creating an activity.
@@ -19,13 +20,12 @@ class ActivitiesController < ApplicationController
     ActiveRecord::Base.transaction do
       a = Activity.new
       a.from_activity_item(activity_item)
-      a.save!
+      a.save
 
       get_users_for_activity(activity_item).each do |user_id|
-        recipient = ActivityRecipient.new
-        recipient.activity = a
-        recipient.osm_user_id = user_id
-        recipient.save!
+        # There can be a lot of recipients so let's do raw SQL.
+        # A little bit of premature optimization hasn't killed anyone, right? :-)
+        ActivityRecipient.connection.execute "INSERT INTO activity_recipients (osm_user_id, activity_id) VALUES (#{user_id}, #{a.id})"
       end
     end
 
