@@ -6,4 +6,9 @@ module ActivityStreams
 
   class Object::DiaryEntry < Object
   end
+
+  class Object::UserGroup < Object
+  end
+
+  Activity.attr_optional(:to)
 end

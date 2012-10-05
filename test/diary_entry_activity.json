@@ -18,6 +18,6 @@
     "title" : "A very interesting article",
     "content" : "A very interesting article indeed",
     "to" : [
-      {"objectType": "user group", "id": "all"}
+      {"objectType": "userGroup", "id": "all"}
     ]
 }
