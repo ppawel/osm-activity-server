@@ -1,4 +1,4 @@
-$:.unshift File.absolute_path(File.dirname(__FILE__) + '/../../lib/')
+$:.unshift File.absolute_path(File.dirname(__FILE__) + '/../lib/')
 require 'osm_activity_server'
 
 require File.expand_path('../boot', __FILE__)
