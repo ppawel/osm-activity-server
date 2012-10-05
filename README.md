@@ -1,27 +1,35 @@
 OpenStreetMap Activity Server
 =============================
 
-Making OpenStreetMap a little bit more social ;-)
-
 ## What is this?
 
-OpenStreetMap Activity Server is a simple server that is a central component of the activity stream implementation for the OpenStreetMap project.
+This is an attempt to make OpenStreetMap more like Facebook.
 
-## Umm, right... but what is this "activity stream" you speak of?
+## That's great! Wait... what?
 
-According to Wikipedia:
+Well, not *exactly* like Facebook, just a little bit more "social".
 
-*"An activity stream is a list of recent activities performed by an individual, typically on a single website."*
+Ever wanted to know what's going on in your area - who is mapping what, who recently joined and maybe needs a helping
+hand? Ever wanted to let people know that you are going on a bicycle trip on Saturday to do some mapping? And do it
+without broadcasting it on mailing lists and/or IRC and/or forums and/or your blog?
 
-See http://en.wikipedia.org/wiki/Activity_stream
+Idea for the activity server is to have a single place that will aggregate information on OSM-related activities.
 
-In addition, a lot of terminology and technical stuff (data model in particular) is derived from the Activity Streams specification so it can be a useful resource as well:
+Activity server will expose this information in a standard way (JSON, RSS/ATOM feeds) so that applications and users can
+consume it any way they want.
 
-http://activitystrea.ms/
+Activity server is meant to be extensible by accepting activities from *activity publishers*. There is a simple API for
+publishing an activity - application developers can use it to integrate their content into activity streams.
 
-For an OpenStreetMap user this would mean having an activity stream on their user page - somewhat similar to popular social networks only without all the noise like "I just ate a sandwich" :-)
+## What's an activity (stream) anyway?
 
-So for example, you would see on your user page:
+According to Wikipedia: *"An activity stream is a list of recent activities performed by an individual, typically on a single website."*
+
+In its simplest form, an activity is a sentence in the following form:
+
+<actor> <verb> <object> [<target>]
+
+So for example:
 
 * John Doe added a bridge and modified two highways in London.
 * Jane Doe says "We are having a mapping party on Friday! Let's meet up at 7PM near Youknowhere"
@@ -47,13 +55,6 @@ At the end of the day it's all about making mapping more fun and providing tools
 
 The idea is to have a server for activities in order to implement the functionality without putting additional load on the main application and database servers in the OSM infrastructure.
 
-## What does it do?
-
-It has several responsibilities:
-
-* Accept, process and store new activities.
-* Serve activity streams (a collection of activities).
-
 # Technical stuff
 
 ## Overview
@@ -63,6 +64,7 @@ The server is a simple Ruby on Rails web application.
 Data model is derived directly from the JSON Activity Streams 1.0 and Audience Targeting for JSON Activity Streams specifications:
 
 http://activitystrea.ms/specs/json/1.0/
+
 http://activitystrea.ms/specs/json/targeting/1.0/
 
 Activities are stored in a Postgres/PostGIS database in a simplified schema (not all attributes from above specs are
@@ -70,15 +72,4 @@ stored - they will be added as needed in the future).
 
 ## API
 
-### Creating new activity
-
-URL: /activities
-Request: POST with request parameter named "json"
-
-Parameter "json" is expected to contain a JSON document representing an activity. Format is described in the specification:
-
-http://activitystrea.ms/specs/json/1.0/#activity
-
-### Retrieving an activity stream
-
-TBD
+See API file.
