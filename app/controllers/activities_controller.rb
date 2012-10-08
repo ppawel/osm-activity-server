@@ -14,24 +14,37 @@ class ActivitiesController < ApplicationController
   # Handles creating an activity.
   #
   def create
-    json = JSON.parse(params[:json], :symbolize_names => true)
-    activity_item = json_to_activity_item(json)
+    response_json = nil
 
-    ActiveRecord::Base.transaction do
-      a = Activity.new
-      a.from_activity_item(activity_item)
-      a.save
+    begin
+      json = JSON.parse(params[:json], :symbolize_names => true)
+      activity_item = json_to_activity_item(json)
 
-      get_users_for_activity(activity_item).each do |user_id|
-        # There can be a lot of recipients so let's do raw SQL.
-        # A little bit of premature optimization hasn't killed anyone, right? :-)
-        ActivityRecipient.connection.execute "INSERT INTO activity_recipients (osm_user_id, activity_id) VALUES (#{user_id}, #{a.id})"
+      ActiveRecord::Base.transaction do
+        a = Activity.new
+        a.from_activity_item(activity_item)
+        a.save
+
+        get_users_for_activity(activity_item).each do |user_id|
+          # There can be a lot of recipients so let's do raw SQL.
+          # A little bit of premature optimization hasn't killed anyone, right? :-)
+          ActivityRecipient.connection.execute "INSERT INTO activity_recipients (osm_user_id, activity_id) VALUES (#{user_id}, #{a.id})"
+        end
       end
+
+      response_json = activity_item.to_json
+    rescue Exception => e
+      puts e.message
+      puts e.backtrace
+      response_json = "{\"error\": \"#{e.class.name}: #{e.message}\"}"
     end
 
-    render :json => activity_item.to_json
+    render :json => response_json
   end
 
+  ##
+  # Handles listing activities by various criteria.
+  #
   def index
     user_id = params[:user_id].to_i
     activities = ActivityRecipient.find(:all,
@@ -46,12 +59,16 @@ class ActivitiesController < ApplicationController
   protected
 
   def json_to_activity_item(json)
+    object = create_object(json[:object])
+    target = create_object(json[:target])
+    verb = create_verb(json[:verb])
+
     ActivityStreams::Activity.new(
       :published => Time.now.utc,
       :actor => ActivityStreams::Object::Person.new(json[:actor]),
-      :object => create_object(json[:object]),
-      :target => create_object(json[:target]),
-      :verb => create_verb(json[:verb]),
+      :object => object,
+      :target => target,
+      :verb => verb,
       :title => json[:title],
       :content => json[:content],
       :to => json[:to].collect {|object_attrs| create_object(object_attrs)})
