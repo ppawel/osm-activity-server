@@ -1,5 +1,6 @@
 require 'activitystreams'
 require 'json'
+require 'rss'
 require 'osm_activity_server'
 
 ##
@@ -46,14 +47,27 @@ class ActivitiesController < ApplicationController
   # Handles listing activities by various criteria.
   #
   def index
-    user_id = params[:user_id].to_i
-    activities = ActivityRecipient.find(:all,
+    format = params[:format]
+    format ||= 'json'
+    user_id = params[:user_id]
+
+    if user_id.nil?
+      render :json => "{\"error\": \"Missing request parameter: user_id\"}"
+      return
+    end
+
+    @activities = ActivityRecipient.find(:all,
       :conditions => {:osm_user_id => user_id},
       :joins => :activity,
       :include => :activity,
       :order => 'published_at DESC').collect {|ar| ar.activity}
-    stream = activities_to_json_stream(activities)
-    render :json => stream.to_json
+
+    if format == 'json'
+      stream = activities_to_json_stream(@activities)
+      render :json => stream.to_json
+    elsif format == 'rss'
+      render :rss => stream.to_json
+    end
   end
 
   protected
