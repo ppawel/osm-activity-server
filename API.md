@@ -14,16 +14,22 @@ API
 Retrieving an activity stream
 -----------------------------
 
-URL: /activities
-Method: GET
+**URL:** `/activities`  
+**Method:** GET
 
-Request parameters:
+**Supported request parameters:**
 
-* user_id - OSM user id
+* `user_id` - OSM user id
+* `bbox` - bounding box
+* `format` - can be either `json` or `rss` (defaults to `json`)
 
-Response:
+**Response:**
 
-A collection of JSON objects according to the specification: http://activitystrea.ms/specs/json/1.0/#collection
+Activity stream according to given parameters.
+
+**Example:**
+
+`/activities?user_id=1234&format=rss`
 
 Creating new activity
 ---------------------
