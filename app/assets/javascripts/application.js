@@ -10,4 +10,17 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+//= require tempo
+//= require jquery
+//= require jquery_ujs
 //= require_tree .
+
+
+$(function(){
+    var renderer = Tempo.prepare('activity_list');
+  $('#activity_form').bind('ajax:success', function(xhr, data, status){
+    //$('#activity_list').html('data');
+    renderer.render(data.items);
+  });
+});
+

@@ -1,0 +1,13 @@
+<%= form_for('', :url => {:action => "index", :controller => "activities"}, :html => {:id => "activity_form"}, :remote => true, :method => :get) do |f| %>
+<input type="hidden" name="format" value="json" />
+  User id: <input id="user_id" type="text" name="user_id" />  <%= f.submit 'Get Activities' %>
+<% end %>
+
+<div id="activity_list">
+    <p data-template>
+        <b>{{title}}</b><br />
+        {{published}}
+        <br />
+        {{content}}
+    </p>
+</div>

@@ -63,6 +63,8 @@ class ActivitiesController < ApplicationController
       render :json => stream.to_json
     elsif format == 'rss'
       render :rss => stream.to_json
+    elsif format == 'rss'
+      render :html
     end
   end
 
