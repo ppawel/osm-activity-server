@@ -34,14 +34,41 @@ Activity stream according to given parameters.
 Creating new activity
 ---------------------
 
-URL: /activities
-Method: POST
+**URL:** `/activities`  
+**Method:** POST
 
-Request parameters:
+**Supported request parameters:**
 
-* json -  is expected to contain a JSON document representing an activity;
+* `json` -  is expected to contain a JSON document representing an activity;
           document format is described in the specification: http://activitystrea.ms/specs/json/1.0/#activity
 
-Response:
+**Response:**
 
 JSON document describing the activity as it has been saved in the server (i.e. containing "published" timestamp etc).
+
+**Example:**
+
+JSON document for the request:
+
+    {
+        "actor": {
+          "objectType" : "person",
+          "id": "#{user_id}",
+          "display_name": "#{user_name}"
+        },
+        "verb": "map",
+        "object" : {
+          "objectType" : "changeset",
+          "id": "#{changeset_id}",
+          "bbox": ""
+        },
+        "target" : {
+          "objectType": "website",
+          "url": "http://www.openstreetmap.org/"
+        },
+        "title" : "#{title}",
+        "content" : "#{content}",
+        "to" : [
+          {"objectType": "userGroup", "id": "friends"}
+        ]
+    }
