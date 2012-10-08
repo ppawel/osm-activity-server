@@ -56,11 +56,7 @@ class ActivitiesController < ApplicationController
       return
     end
 
-    @activities = ActivityRecipient.find(:all,
-      :conditions => {:osm_user_id => user_id},
-      :joins => :activity,
-      :include => :activity,
-      :order => 'published_at DESC').collect {|ar| ar.activity}
+    @activities = find_activities_by_actor(user_id)
 
     if format == 'json'
       stream = activities_to_json_stream(@activities)
@@ -71,6 +67,20 @@ class ActivitiesController < ApplicationController
   end
 
   protected
+
+  def find_activities_by_actor(user_id)
+    Activity.find(:all,
+      :conditions => {:actor_id => user_id},
+      :order => 'published_at DESC')
+  end
+
+  def find_activities_for_recipient(user_id)
+    ActivityRecipient.find(:all,
+      :conditions => {:osm_user_id => user_id},
+      :joins => :activity,
+      :include => :activity,
+      :order => 'published_at DESC').collect {|ar| ar.activity}
+  end
 
   def json_to_activity_item(json)
     object = create_object(json[:object])
