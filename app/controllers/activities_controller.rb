@@ -99,7 +99,7 @@ class ActivitiesController < ApplicationController
     verb = create_verb(json[:verb])
 
     ActivityStreams::Activity.new(
-      :published => Time.now.utc,
+      :published => json[:published],#Time.now.utc,
       :actor => ActivityStreams::Object::Person.new(json[:actor]),
       :object => object,
       :target => target,

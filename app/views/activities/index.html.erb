@@ -3,11 +3,11 @@
 <% @activities.each do |activity| %>
 <li>
 <span>
-<%= activity.content %>
-<br />
-<span class="activitystream-created"><%= activity.published_at %></span>
-<br />
-<a href="">comment</a> | <a href="">send message</a>
+<%= link_to activity.actor_display_name, "/user/#{activity.actor_display_name}" %> created changeset
+<%= link_to activity.object_id, "/browse/changeset/#{activity.object_id}" %>
+<span class="activitystream-created">(<%= activity.content %>)</span>
+<br /><br />
+<a href="">comment</a> | <a href="">send message</a>&nbsp;&nbsp;<span class="activitystream-created"><%= activity.published_at %></span>
 </span>
 </li>
 <% end %>
