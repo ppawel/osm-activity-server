@@ -49,22 +49,24 @@ class ActivitiesController < ApplicationController
   def index
     format = params[:format]
     format ||= 'json'
+
+    bbox = params[:bbox]
     user_id = params[:user_id]
 
-    if user_id.nil?
-      render :json => "{\"error\": \"Missing request parameter: user_id\"}"
+    if !user_id.nil?
+      @activities = find_activities_by_actor(user_id)
+    elsif !bbox.nil?
+      @activities = find_activities_by_bbox(bbox)
+    else
+      render :json => "{\"error\": \"Missing request parameters: user_id or bbox\"}"
       return
     end
-
-    @activities = find_activities_by_actor(user_id)
 
     if format == 'json'
       stream = activities_to_json_stream(@activities)
       render :json => stream.to_json
     elsif format == 'rss'
       render :rss => stream.to_json
-    elsif format == 'rss'
-      render :html
     end
   end
 
@@ -82,6 +84,12 @@ class ActivitiesController < ApplicationController
       :joins => :activity,
       :include => :activity,
       :order => 'published_at DESC').collect {|ar| ar.activity}
+  end
+
+  def find_activities_by_bbox(bbox)
+    Activity.find(:all,
+      #:conditions => {:actor_id => user_id},
+      :order => 'published_at DESC')
   end
 
   def json_to_activity_item(json)
