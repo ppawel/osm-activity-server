@@ -2,8 +2,14 @@
 <ul>
 <% @activities.each do |activity| %>
 <li>
-<%= activity.title %> <span class="activitystream-created"><%= activity.published_at %></span><br />
+<span>
 <%= activity.content %>
+<br />
+<span class="activitystream-created"><%= activity.published_at %></span>
+<br />
+<a href="">comment</a> | <a href="">send message</a>
+</span>
 </li>
 <% end %>
 </ul>
+</div>

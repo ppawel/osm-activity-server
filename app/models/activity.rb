@@ -23,5 +23,6 @@ class Activity < ActiveRecord::Base
     self.verb = activity_item.verb.to_s
     self.title = activity_item.title
     self.content = activity_item.content
+    self.geom = activity_item.geom
   end
 end

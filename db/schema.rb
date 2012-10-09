@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20121002202058) do
     t.string "verb", :null => false
     t.string "title", :null => false
     t.string "content", :null => false
-    t.point "latlon", :geographic => true
+    t.geometry "geom", :geographic => false
   end
 
   create_table :activity_recipients, :force => true do |t|

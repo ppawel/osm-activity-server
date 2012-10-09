@@ -1,7 +1,20 @@
 require 'activitystreams'
 
 module ActivityStreams
+  class Activity
+    def geom
+      puts object.inspect
+      object.geom if object.respond_to?(:geom)
+    end
+  end
+
   class Object::Changeset < Object
+    attr_accessor :geom
+
+    def initialize(attributes)
+      super(attributes)
+      @geom = attributes[:geom]
+    end
   end
 
   class Object::Diary < Object
