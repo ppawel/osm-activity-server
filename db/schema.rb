@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(:version => 20121002202058) do
     t.string "target_display_name"
     t.string "target_url"
     t.string "verb", :null => false
-    t.string "title", :null => false
-    t.string "content", :null => false
+    t.text "title", :null => false
+    t.text "content", :null => false
     t.geometry "geom", :geographic => false
   end
 
