@@ -64,7 +64,7 @@ class ActivitiesController < ApplicationController
 
     if format == 'json'
       stream = activities_to_json_stream(@activities)
-      render :json => stream.to_json
+      render :json => stream
     elsif format == 'rss'
       render :rss => stream.to_json
     end
@@ -90,6 +90,7 @@ class ActivitiesController < ApplicationController
     points = bbox.split(',')
     Activity.find(:all,
       :conditions => "ST_Contains(ST_Envelope(ST_GeomFromText('LINESTRING(#{points[0]} #{points[1]}, #{points[2]} #{points[3]})')), geom::geometry)",
+      :limit => 100,
       :order => 'published_at DESC')
   end
 
@@ -136,7 +137,11 @@ class ActivitiesController < ApplicationController
         :content => activity.content)
     end
 
-    ActivityStreams::Stream.new(:items => items, :total_count => items.size)
+    if !items.empty?
+      return ActivityStreams::Stream.new(:items => items, :total_count => items.size).to_json
+    else
+      return '{}'
+    end
   end
 
   def create_object(attributes)
