@@ -3,6 +3,13 @@
 # represent a subset of {ActivityStreams::Activity}[https://github.com/nov/activitystreams/blob/master/lib/activitystreams/activity.rb] attributes.
 #
 class Activity < ActiveRecord::Base
+  def bbox
+    # From PostGIS we get something like this: BOX(39.8626495 -3.9761778,39.8628884 -3.9752391)
+    box_text = read_attribute(:bbox)
+    # Transforming it to 39.8626495,-3.9761778,39.8628884,-3.9752391
+    box_text.gsub('BOX(', '').gsub(')', '').gsub(' ', ',')
+  end
+
   ##
   # Transfers data from given activity item attributes to this instance's attributes.
   #

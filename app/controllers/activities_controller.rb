@@ -89,7 +89,8 @@ class ActivitiesController < ApplicationController
   def find_activities_by_bbox(bbox)
     points = bbox.split(',')
     Activity.find(:all,
-      :conditions => "ST_Contains(ST_SetSRID(ST_Envelope(ST_GeomFromText('LINESTRING(#{points[0]} #{points[1]}, #{points[2]} #{points[3]})')), 4326), geom::geometry)",
+      :select => 'activities.*, Box2D(ST_Envelope(geom::geometry)) AS bbox',
+      :conditions => "ST_Contains(ST_SetSRID(ST_Envelope(ST_GeomFromText('LINESTRING(#{points[0]} #{points[1]}, #{points[2]} #{points[3]})'))::box2d, 4326), geom::geometry)",
       :limit => 100,
       :order => 'published_at DESC')
   end
@@ -134,13 +135,14 @@ class ActivitiesController < ApplicationController
         }),
         :verb => create_verb(activity.verb),
         :title => activity.title,
-        :content => activity.content)
+        :content => activity.content,
+        :bbox => activity.bbox)
     end
 
     if !items.empty?
       return ActivityStreams::Stream.new(:items => items, :total_count => items.size).to_json
     else
-      return '{}'
+      return '{"totalCount": 0}'
     end
   end
 

@@ -2,8 +2,9 @@ require 'activitystreams'
 
 module ActivityStreams
   class Activity
+    attr_optional :bbox
+
     def geom
-      puts object.inspect
       object.geom if object.respond_to?(:geom)
     end
   end
