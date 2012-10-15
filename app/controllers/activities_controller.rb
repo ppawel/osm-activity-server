@@ -89,7 +89,7 @@ class ActivitiesController < ApplicationController
   def find_activities_by_bbox(bbox)
     points = bbox.split(',')
     Activity.find(:all,
-      :conditions => "ST_Contains(ST_Envelope(ST_GeomFromText('LINESTRING(#{points[0]} #{points[1]}, #{points[2]} #{points[3]})')), geom::geometry)",
+      :conditions => "ST_Contains(ST_SetSRID(ST_Envelope(ST_GeomFromText('LINESTRING(#{points[0]} #{points[1]}, #{points[2]} #{points[3]})')), 4326), geom::geometry)",
       :limit => 100,
       :order => 'published_at DESC')
   end
