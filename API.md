@@ -1,18 +1,22 @@
 Introduction
 ============
 
-This document describes the API of the OpenStreetMap Activity Server.
+This document describes the API of the OpenStreetMap Activity Server. Please refer to the README.md file to get more high level/non-technical overview.
 
 Some definitions for terms used in this document:
 
-* Activity - a JSON document according to the JSON Activity Streams 1.0 specification
-* Activity stream - a collection of activities serialized as described in the specification
+* Spec - refers to the [JSON Activity Streams specification](http://activitystrea.ms/specs/json/1.0/) 
+* Activity document - a JSON document representing an Activity structured according to the Spec
+* Activity stream - a collection of activities serialized as described in the Spec
+
 
 API
 ===
 
 Retrieving an activity stream
 -----------------------------
+
+Activity stream can be retrieved using a following HTTP request:
 
 **URL:** `/activities`  
 **Method:** GET
@@ -39,7 +43,7 @@ Creating new activity
 
 **Supported request parameters:**
 
-* `json` -  is expected to contain a JSON document representing an activity;
+* `json` - expected to contain a JSON document representing an activity;
           document format is described in the specification: http://activitystrea.ms/specs/json/1.0/#activity
 
 **Response:**
