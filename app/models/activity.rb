@@ -7,7 +7,9 @@ class Activity < ActiveRecord::Base
     # From PostGIS we get something like this: BOX(39.8626495 -3.9761778,39.8628884 -3.9752391)
     box_text = read_attribute(:bbox)
     # Transforming it to 39.8626495,-3.9761778,39.8628884,-3.9752391
-    box_text.gsub('BOX(', '').gsub(')', '').gsub(' ', ',')
+    box_text.gsub!('BOX(', '').gsub!(')', '').gsub!(' ', ',')
+    a = box_text.split(',')
+    "#{a[1]},#{a[0]},#{a[3]},#{a[2]}"
   end
 
   ##
