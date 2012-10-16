@@ -11,6 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+#require 'active_record/postgresql_extensions'
+
 ActiveRecord::Schema.define(:version => 20121002202058) do
 
   create_table "activities", :force => true do |t|
@@ -39,4 +41,8 @@ ActiveRecord::Schema.define(:version => 20121002202058) do
     t.integer "activity_id", :null => false
     t.integer "osm_user_id", :null => false
   end
+
+  create_index('idx_activities_published_at', :activities, :published_at, :using => :btree)
+  create_index('idx_activities_actor_id', :activities, :actor_id, :using => :btree)
+  create_index('idx_activities_geom', :activities, :geom, :using => :gist)
 end
