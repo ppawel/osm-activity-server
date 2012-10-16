@@ -31,6 +31,8 @@ Activity stream can be retrieved using a following HTTP request:
 
 Activity stream according to given parameters.
 
+In case `format` request parameter was set to `json`, the response is just a collection of Activity documents serialized [according to the spec](http://activitystrea.ms/specs/json/1.0/#collection).
+
 **Example:**
 
 `/activities?user_id=1234&format=rss`
