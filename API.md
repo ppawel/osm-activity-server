@@ -23,8 +23,8 @@ Activity stream can be retrieved using a following HTTP request:
 
 **Supported request parameters:**
 
-* `user_id` - OSM user id
-* `bbox` - bounding box
+* `actor_id` - OSM user id that will be used to generate the returned activity stream; returned stream will only contain activities where user with given user id is the actor
+* `bbox` - bounding box (```minlat,minlon,maxlat,maxlon```) that will be used to generate the returned activity stream; returned stream will only contain activities which geometry (or at least part of it) is within given bounding box
 * `format` - can be either `json` or `rss` (defaults to `json`)
 
 **Response:**
