@@ -4,6 +4,7 @@
 #
 class Activity < ActiveRecord::Base
   def bbox
+    return nil unless has_attribute?(:bbox)
     # From PostGIS we get something like this: BOX(39.8626495 -3.9761778,39.8628884 -3.9752391)
     box_text = read_attribute(:bbox)
     # Transforming it to 39.8626495,-3.9761778,39.8628884,-3.9752391

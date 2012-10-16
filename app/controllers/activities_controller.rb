@@ -74,7 +74,9 @@ class ActivitiesController < ApplicationController
 
   def find_activities_by_actor(user_id)
     Activity.find(:all,
+      :select => 'activities.*, Box2D(geom) AS bbox',
       :conditions => {:actor_id => user_id},
+      :limit => 100,
       :order => 'published_at DESC')
   end
 
